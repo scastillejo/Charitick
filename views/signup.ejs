@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include templates/head.ejs %>
+  </head>
+  <body>
+    <nav class="navbar navbar-default" id="menubar">
+      <% include templates/menutitle.ejs %>
+      <ul class="nav navbar-nav navbar-right">
+          <div class="navbar-header">
+          <a class="navbar-brand" href="/aboutit">About It</a>
+        </div>
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/<%= data.hrefone %>"><%= data.titleone %></a>
+        </div>
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/<%= data.hreftwo %>"><%= data.titletwo %></a>
+        </div>
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/<%= data.hrefthree %>"><%= data.titlethree %></a>
+        </div>
+     </ul>
+    </nav>
+   <div class="container">
+      <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+        <h1>User Signup</h1>
+          <form>
+            <div class="col-xs-12">
+              <div class="form-group row">
+                <label for="zone">User email</label>
+                <input class="form-control" type="text" id="username" maxlength="100" value="<%= data.username %>" placeholder="User email" required>
+              </div>
+            </div> 
+            <div class="col-xs-12">
+              <div class="form-group row">
+                <label for="zone">Password</label>
+                <input class="form-control" type="password" id="password" maxlength="100" placeholder="Password" required>
+              </div>
+            </div> 
+            <div class="col-xs-12">
+              <div class="form-group row">
+                <label for="zone">Confirm Password</label>
+                <input class="form-control" type="password" id="password2" maxlength="100" placeholder="Confirm Password" required>
+              </div>
+            </div>
+            <div class="col-xs-12">
+              <div class="form-group row">
+                <label for="hint">Password Hint</label>
+                <input class="form-control" type="text" id="hint" maxlength="100" value="<%= data.hint %>" placeholder="(e.g.: John Doe's birthday)" required>
+              </div>
+            </div>
+            <div class="col-xs-12">
+              <div class="form-group row">
+                <input type="submit" class="btn btn-danger" id="btnsubmit" value="Save" />
+              </div>
+            </div>
+            <div class="col-xs-12">
+              <div class="form-group row">
+                 <a id="delaccount">Eliminate account</a>
+              </div>
+            </div>
+            <div class="col-xs-12">
+              <div class="form-group row">
+                 <p id="msg"></p>
+              </div>
+            </div>
+            <% include templates/footer.ejs %>  
+          </form>
+          <span id="inf" style="display:none;"><%= data.inf %></span>
+        </div>
+        <div class="col-sm-4"></div>
+      </div>
+    </div>
+    <div id="loading" class="hide">
+      <div id="loading-content">
+        Loading...
+      </div>
+    </div> 
+    <script src="javascripts/aj-signup.js"></script>
+  </body>
+</html>

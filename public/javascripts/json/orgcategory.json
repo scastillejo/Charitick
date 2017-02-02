@@ -1,0 +1,15 @@
+{
+  "category": [
+  { "name": "Almshouse" },
+  { "name": "Animal charity" },
+  { "name": "Children's charity" },
+  { "name": "Development charity" },
+  { "name": "Educational charity" },
+  { "name": "Foundation" },  
+  { "name": "Health charity" },  
+  { "name": "Prison charity" },  
+  { "name": "Religious charity" },  
+  { "name": "Social welfare charity" },      
+  { "name": "Other charities" }
+  ]
+}

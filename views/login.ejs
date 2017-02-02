@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include templates/head.ejs %>
+  </head>
+  <body>
+   <nav class="navbar navbar-default" id="menubar">
+      <% include templates/menutitle.ejs %>
+      <ul class="nav navbar-nav navbar-right">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/aboutit">About It</a>
+        </div>
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/aboutorganization">About Organizations</a>
+        </div>
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/<%= data.hrefone %>"><%= data.titleone %></a>
+        </div>
+     </ul>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+          <h1>Log In</h1>
+          <form method="post" action="login">
+            <div class="form-group">
+              <input class="form-control" type="text" name="username" maxlength="100" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+              <input class="form-control" type="password" name="password" maxlength="100" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+              <input type="checkbox" name="isOrganization" id="isOrganization"/>
+              <label for="isOrganization">I'm an organization</label>
+            </div>
+            <div class="form-group">
+              <input type="submit" class="btn btn-danger" id="btnSubmit" value="Login" />
+            </div>
+            <div class="form-group">
+              <p id="msg"><%= message %></p>
+            </div>
+            <div class="form-group">
+              <a href="/pwdrecovery">Forgot password?</a>
+            </div>
+            <% include templates/footer.ejs %>
+          </form>
+        </div>
+        <div class="col-sm-4"></div>
+      </div>   
+   </div>
+   <script src="javascripts/login.js"></script>     
+  </body>
+</html>

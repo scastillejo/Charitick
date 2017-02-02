@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include templates/head.ejs %>
+  </head>
+  <body>
+    <nav class="navbar navbar-default" id="menubar">
+      <% include templates/menutitle.ejs %>
+      <ul class="nav navbar-nav navbar-right">
+          <div class="navbar-header">
+          <a class="navbar-brand" href="/aboutit">About It</a>
+        </div>
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/<%= data.hrefone %>"><%= data.titleone %></a>
+        </div>
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/<%= data.hreftwo %>"><%= data.titletwo %></a>
+        </div>
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/<%= data.hrefthree %>"><%= data.titlethree %></a>
+        </div>
+     </ul>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-md-4">
+          <h1>About It</h1>
+          <div class="form-group">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ac neque et turpis accumsan ornare in a velit. Duis bibendum vestibulum dui, sit amet viverra metus. Phasellus at pulvinar lacus. Curabitur nec justo vel arcu tincidunt tempor. Nullam accumsan pharetra neque ac rutrum. Nunc imperdiet consectetur ante, tristique euismod ipsum molestie feugiat. Nam semper tristique blandit. Aliquam lacinia feugiat nisl. Donec interdum velit arcu, et euismod magna dapibus eu. Sed fringilla justo a pretium lobortis. Vestibulum non metus ac felis suscipit euismod et non ante. Aliquam ac iaculis leo. Maecenas rhoncus iaculis semper. Nam aliquam at diam ut euismod.</p>
+          </div>
+          <% include templates/footer.ejs %> 
+        </div>
+        <div class="col-sm-4"></div>
+      </div> 
+   </div>
+  </body>
+</html>

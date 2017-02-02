@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include templates/head.ejs %>
+  </head>
+  <body>
+    <nav class="navbar navbar-default" id="menubar">
+      <% include templates/menutitle.ejs %>
+      <ul class="nav navbar-nav navbar-right">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/<%= data.hrefone %>"><%= data.titleone %></a>
+        </div>
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/<%= data.hreftwo %>"><%= data.titletwo %></a>
+        </div>
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/<%= data.hrefthree %>"><%= data.titlethree %></a>
+        </div>
+     </ul>
+    </nav>
+    <div class="container">
+        <div class="row">
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4">
+          <h1>Payments</h1>
+          <ul class="list-group" id="paymentlist" data-role="listview">
+            <% for(var i=0; i<data.length; i++){ %>
+            <li class="list-group-item">
+              <a>Org: <%= data[i].name %></a>
+              <ul class="paymentitems">
+                <li>Address: <%= data[i].address %></li>
+                <li>State: <%= data[i].state %></li>
+                <li>City: <%= data[i].city %></li>
+                <li>Zone: <%= data[i].zone %></li>
+                <li>Phone: <%= data[i].phone %></li>
+                <li>Email: <%= data[i].email %></li>
+                <li>Total: $<%= data[i].total %></li>
+                <li>Payment: <%= data[i].payment %></li>  
+                <li>Date: <%= data[i].date %></li>            
+              </ul>                
+            </li>
+            <% } %>
+          </ul>
+          <% include templates/footer.ejs %>   
+         </div>
+         <div class="col-sm-4"></div>
+       </div> 
+    </div>
+    <script src="javascripts/aj-payments.js"></script>
+  </body>
+</html>
