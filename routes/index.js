@@ -1,12 +1,12 @@
-var express = require('express');
-var router = express.Router();
-var bodyParser = require('body-parser');
-var access = require('../models/access');
-var Org = require('../models/da-org');
-var User = require('../models/da-users');
-var UserOrder = require('../models/da-payments');
+let express = require('express');
+let router = express.Router();
+let bodyParser = require('body-parser');
+let access = require('../models/access');
+let Org = require('../models/da-org');
+let User = require('../models/da-users');
+let UserOrder = require('../models/da-payments');
 
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
+let urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.get('/', function(req, res, next) {
 	if(req.userid == undefined || req.userid == ''){
@@ -68,12 +68,12 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', urlencodedParser, function(req,res){
-  var flag = req.body.flag;
+  let flag = req.body.flag;
 
   if(flag == 'find'){
-    var hour = req.body.hour;
-    var minute = req.body.minute;
-    var second = req.body.second;
+    let hour = req.body.hour;
+    let minute = req.body.minute;
+    let second = req.body.second;
 
     if(hour == undefined || minute == undefined || second == undefined){
        res.send('Error in getting time data...');
@@ -85,8 +85,8 @@ router.post('/', urlencodedParser, function(req,res){
     minute = +minute;
     second = +second;
 
-    var from = hour - 6;
-    var to = hour + 6;
+    let from = hour - 6;
+    let to = hour + 6;
 
     //Searches in a -6 +6 hour range 
     if(from < 0 || to > 23){
@@ -141,7 +141,7 @@ router.post('/', urlencodedParser, function(req,res){
           break;
       }
     }
-    var params = { from, to };
+    let params = { from, to };
 
     Org.getOrganization(params, function(err, data){
       if(err) res.send(err);

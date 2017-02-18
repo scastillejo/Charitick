@@ -3,54 +3,43 @@ $(document).ready(function(){
   $('#btnSubmit').focus();
 
   $('form').on('submit', function(){
-      var username = $('#username').val();
-      var password = $('#password').val();
-      var password2 = $('#password2').val();
-      var hint = $('#hint').val();
-      var inf = $('#inf').text();
-      var reg = /^(?! )((?!  )(?! $)[a-zA-Z ]){1,100}$/;
-      var regusername = /^(?! )((?!  )(?! $)[a-zA-Z0-9 ]){1,100}$/;      
-      var regmail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-      var regphone = /^(?! )((?!  )(?! $)[a-zA-Z0-9-+() ]){1,100}$/;
-      var error = false;
 
-      var data = {
-        username: username, 
-        password: password,
-        password2: password2,
-        hint: hint
+      let data = {
+        username: $('#username').val(), 
+        password: $('#password').val(),
+        password2: $('#password2').val(),
+        hint: $('#hint').val()
       };
 
-      if(!error){
-          $.ajax({
-          async:true,
-          type: 'POST',
-          url: '/signup',
-          data: data,
-          success: function(data){
-            if(data != undefined){
-              var str = JSON.stringify(data);
-              if(str.substring(1,6) != 'Error'){
-                if(inf == '-')
-                  $('#btnsubmit').prop('disabled', true);
-              }
-              alert(data);
+      $.ajax({
+        async:true,
+        type: 'POST',
+        url: '/signup',
+        data: data,
+        success: function(data){
+          if(data != undefined){
+            let str = JSON.stringify(data);
+            if(str.substring(1,6) != 'Error'){
+              if($('#inf').text() == '-')
+                $('#btnsubmit').prop('disabled', true);
             }
-          },
-          error:function(msg){
-            alert(msg);
+            alert(data);
           }
-        });
-      }
+        },
+        error:function(msg){
+          alert(msg);
+        }
+      });
+
       return false;
     });
 
     $('#delaccount').on('click', function(){
-       var inf = $('#inf').text();
+       let inf = $('#inf').text();
        if(inf != undefined && inf != '' && inf != '-'){
         if (confirm("Do you really want to delete your account?") == true) {
 
-          var deldata = {
+          let deldata = {
             inf: inf
           };
 

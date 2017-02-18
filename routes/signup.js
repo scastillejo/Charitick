@@ -1,10 +1,10 @@
-var express = require('express');
-var router = express.Router();
-var bodyParser = require('body-parser');
-var User = require('../models/da-users');
-var access = require('../models/access');
+let express = require('express');
+let router = express.Router();
+let bodyParser = require('body-parser');
+let User = require('../models/da-users');
+let access = require('../models/access');
 
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
+let urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.get('/', function(req, res, next) {
     if(req.userid == undefined || req.userid == ''){
@@ -36,53 +36,40 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', urlencodedParser, function(req,res){
-  var userid = req.userid;
-  var username = req.body.username;
-  var password = req.body.password;
-  var password2 = req.body.password2;
-  var hint = req.body.hint;
-  var reg = /^(?! )((?!  )(?! $)[a-zA-Z ]){1,100}$/;
-  var regusername = /^(?! )((?!  )(?! $)[a-zA-Z0-9 ]){1,100}$/;      
-  var regmail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-  var regphone = /^(?! )((?!  )(?! $)[a-zA-Z0-9-+() ]){1,100}$/;
+  let userid = req.userid;
+  let username = req.body.username;
+  let password = req.body.password;
+  let password2 = req.body.password2;
+  let hint = req.body.hint;
+  let regmail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+  let errmsg = '';
 
-  if(username == undefined || username == '' || username.length > 100){
-     res.send('Error in user email...');
-     res.end();
-     return;
-  }
-  if(!regmail.test(username)) {     
-     res.send('Invalid email address...');
-     res.end();
-     return;
-  }
-  if(password == undefined || password == '' || password.length > 100){
-     res.send('Error in getting password.');
-     res.end();
-     return;
-  }
-  if(password2 == undefined || password2 == '' || password2.length > 100){
-     res.send('Error in getting confirm password.');
-     res.end();
-     return;
-  }
-  if(password != password2){
-     res.send('Passwords don´t match.');
-     res.end();
-     return;
-  }
-  if(hint == undefined || hint == '' || hint.length > 100){
-     res.send('Error in getting password hint.');
-     res.end();
-     return;
-  }
-  if(hint == password){
-     res.send('Password hint cannot be the password.');
-     res.end();
-     return;
+  let validate = (param, key) => {
+    if(param == undefined || param == '' || param.length > 100)
+     return errmsg = 'Error in getting ' + key + '...';
   }
 
-  var newUser = new User({
+  if(!regmail.test(username))  
+     errmsg ='Error. Invalid user name. Must be an email address...';
+
+  if(password != password2)
+     errmsg ='Error. Passwords don´t match.';
+
+  if(hint == password)
+     errmsg ='Error. Password hint cannot be the password.';
+
+  validate(hint, 'hint');
+  validate(password2, 'confirm password');
+  validate(password, 'password');
+  validate(username, 'user name');
+
+  if(errmsg != ''){
+    res.send(errmsg);
+    res.end();
+    return;
+  }
+
+  let newUser = new User({
     username: username,
     password: password,
     hint: hint
@@ -106,30 +93,30 @@ router.post('/', urlencodedParser, function(req,res){
   }
 })
 
-function errorHandler(err){
+let errorHandler = (err) => {
   if(err['errors'] != undefined){
     Object.keys(err['errors']).forEach(function(key) {
       return err['errors'][key]['message'].toString();
     });
   }
   if(err['code'] == 11000){
-    var str = JSON.stringify(err);
-    var from = str.indexOf("dborders.users");
-    var to = str.indexOf("dup key");
+    let str = JSON.stringify(err);
+    let from = str.indexOf("dbcharitick.users");
+    let to = str.indexOf("dup key");
 
     str = str.substring(from,to-1);
 
-    if(str == 'dborders.users.$username_1')
+    if(str == 'dbcharitick.users.$username_1')
       return 'Error. The user email is already used.';
 
-    return 'Error. -user email- is already used.';
+    return 'Error. Possible duplicate data.';
   }
   return 'Server error...';  
 }
 
 router.delete('/', urlencodedParser, function(req,res){
   if(req.userid != undefined && req.userid != ''){
-   var inf = req.body.inf;
+   let inf = req.body.inf;
 
    if(inf != undefined && inf != '' && inf != '-'){
       User.deleteUserAccount(req.userid, function(err){

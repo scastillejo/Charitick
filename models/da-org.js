@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
-var bcrypt = require('bcryptjs');
-var Schema = mongoose.Schema;
+let mongoose = require('mongoose');
+let bcrypt = require('bcryptjs');
+let Schema = mongoose.Schema;
 
-var OrgSchema = new Schema({
+let OrgSchema = new Schema({
 	name: {
 		type: String,
 		required: [true, 'Name required.']
@@ -81,7 +81,7 @@ var OrgSchema = new Schema({
 	}
 },{collection : 'organization'});
 
-var OrgModel = module.exports = mongoose.model('OrgModel', OrgSchema);
+let OrgModel = module.exports = mongoose.model('OrgModel', OrgSchema);
 
 module.exports.createOrg = function(newOrg, callback){
     bcrypt.genSalt(10, function(err, salt) {
@@ -94,7 +94,7 @@ module.exports.createOrg = function(newOrg, callback){
 module.exports.updateOrg = function(newOrg, id, callback){
 	bcrypt.genSalt(10, function(err, salt) {
 	    bcrypt.hash(newOrg.password, salt, function(err, hash) {
-		    var item = {
+		    let item = {
 			  name : newOrg.name,
 			  briefdesc : newOrg.briefdesc,
 			  address : newOrg.address,

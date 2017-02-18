@@ -1,13 +1,13 @@
-var express = require('express');
-var router = express.Router();
-var bodyParser = require('body-parser');
-var User = require('../models/da-users');
-var Org = require('../models/da-org');
-var PwdCompare = require('../models/pwdcomparison');
-var access = require('../models/access');
-var jwt = require('json-web-token');
+let express = require('express');
+let router = express.Router();
+let bodyParser = require('body-parser');
+let User = require('../models/da-users');
+let Org = require('../models/da-org');
+let PwdCompare = require('../models/pwdcomparison');
+let access = require('../models/access');
+let jwt = require('json-web-token');
 
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
+let urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.get('/', function(req, res, next) {
 	res.clearCookie('_accessToken');
@@ -16,10 +16,10 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', urlencodedParser, function(req,res){
-  var username = req.body.username;
-  var password = req.body.password;
-  var isOrganization = req.body.isOrganization;
-  var obj;
+  let username = req.body.username;
+  let password = req.body.password;
+  let isOrganization = req.body.isOrganization;
+  let obj;
 
   if (username == undefined || username == '' || username.length > 100)
   	return res.render('login',{ message : 'Error in getting user name...', data:{ 'hrefone': '', 'titleone': 'Home' }});

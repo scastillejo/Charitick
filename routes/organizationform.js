@@ -1,14 +1,14 @@
-var express = require('express');
-var router = express.Router();
-var bodyParser = require('body-parser');
-var Org = require('../models/da-org');
-var access = require('../models/access');
+let express = require('express');
+let router = express.Router();
+let bodyParser = require('body-parser');
+let Org = require('../models/da-org');
+let access = require('../models/access');
 
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
+let urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.get('/', function(req, res, next) {
   if(req.userid == undefined || req.userid == ''){
-    var jfile = {
+    let jfile = {
       'name': '',
       'briefdesc': '',
       'address': '',
@@ -46,138 +46,76 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', urlencodedParser, function(req,res){
-  var orgid = req.body.inf;
-  var name = req.body.name;
-  var briefdesc = req.body.briefdesc;
-  var address = req.body.address;
-  var state = req.body.state;
-  var city = req.body.city;
-  var zone = req.body.zone;
-  var phone = req.body.phone;
-  var email = req.body.email;
-  var website = req.body.website;
-  var category = req.body.category;
-  var type = req.body.type;
-  var date = new Date();
-  var hour = date.getHours();
-  var minute = date.getMinutes();
-  var second = date.getSeconds();
-  var searchname = removeAccents(name.toLowerCase());
-  var username = req.body.username;
-  var password = req.body.password;
-  var password2 = req.body.password2;
-  var hint = req.body.hint;
-  var active = req.body.active;
-  var regmail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-  var regphone = /^(?! )((?!  )(?! $)[a-zA-Z0-9-+() ]){1,100}$/;
+  let orgid = req.body.inf;
+  let name = req.body.name;
+  let briefdesc = req.body.briefdesc;
+  let address = req.body.address;
+  let state = req.body.state;
+  let city = req.body.city;
+  let zone = req.body.zone;
+  let phone = req.body.phone;
+  let email = req.body.email;
+  let website = req.body.website;
+  let category = req.body.category;
+  let type = req.body.type;
+  let date = new Date();
+  let hour = date.getHours();
+  let minute = date.getMinutes();
+  let second = date.getSeconds();
+  let searchname = removeAccents(name.toLowerCase());
+  let username = req.body.username;
+  let password = req.body.password;
+  let password2 = req.body.password2;
+  let hint = req.body.hint;
+  let active = req.body.active;
+  var errmsg = '';
+  let regmail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+  let regphone = /^(?! )((?!  )(?! $)[a-zA-Z0-9-+() ]){1,100}$/;
 
-  if(name == undefined || name == '' || name.length > 100){
-     res.send('Error in getting the organization name.');
-     res.end();
-     return;
-  }
-  if(briefdesc == undefined || briefdesc == '' || briefdesc.length > 200){
-     res.send('Error in getting a description...');
-     res.end();
-     return;
-  }
-  if(address == undefined || address == '' || address.length > 100){
-     res.send('Error in getting address...');
-     res.end();
-     return;
-  }
-  if(state == undefined || state == '' || state.length > 100){
-     res.send('Error in getting a State...');
-     res.end();
-     return;
-  }
-  if(city == undefined || city == '' || city == 'select...' || city.length > 100){
-     res.send('Error in getting a city...');
-     res.end();
-     return;
-  }
-  if(zone == undefined || zone == '' || zone == 'select...' || zone.length > 100){
-     res.send('Error in getting a zone...');
-     res.end();
-     return;
-  }
-  if(phone == undefined || phone == '' || phone.length > 100){
-     res.send('Error in getting phone number...');
-     res.end();
-     return;
-  }
-  if(!regphone.test(phone)) {     
-     res.send('Invalid phone number format...');
-     res.end();
-     return;
-  }
-  if(email == undefined || email == '' || email.length > 100){
-     res.send('Error in getting email...');
-     res.end();
-     return;
-  }
-  if(!regmail.test(email)) {     
-     res.send('Invalid email address...');
-     res.end();
-     return;
-  }
-  if(website == undefined || website == '' || website.length > 100){
-     res.send('Error in getting website address...');
-     res.end();
-     return;
-  }
-  if(category == undefined || category == '' || category.length > 100){
-     res.send('Error in getting a category...');
-     res.end();
-     return;
-  }
-  if(type == undefined || type == '' || type.length > 100){
-     res.send('Error in getting a type...');
-     res.end();
-     return;
-  }
-  if(hour == undefined || minute == undefined || second == undefined){
-     res.send('Error in getting time data...');
-     res.end();
-     return;
-  }
-  if(username == undefined || username == '' || username.length > 100){
-     res.send('Error in user name...');
-     res.end();
-     return;
-  }
-  if(!regmail.test(username)) {     
-     res.send('Invalid email address...');
-     res.end();
-     return;
-  }
-  if(password == undefined || password == '' || password.length > 100){
-     res.send('Error in getting password.');
-     res.end();
-     return;
-  }
-  if(password2 == undefined || password2 == '' || password2.length > 100){
-     res.send('Error in getting confirm password.');
-     res.end();
-     return;
-  }
-  if(password != password2){
-     res.send('Passwords don´t match.');
-     res.end();
-     return;
-  }
-  if(hint == undefined || hint == '' || hint.length > 100){
-     res.send('Error in getting password hint.');
-     res.end();
-     return;
-  }
-  if(hint == password){
-     res.send('Password hint cannot be the password.');
-     res.end();
-     return;
+  if(password != password2)
+     errmsg = 'Error. Passwords don´t match.';
+
+  if(hint == password)
+     errmsg = 'Error. Password hint cannot be the password.';
+
+  if(!regphone.test(phone))  
+     errmsg = 'Error. Invalid phone number format...';
+
+  if(!regmail.test(email)) 
+     errmsg = 'Error. Invalid email address...';
+
+  if(hour == undefined || minute == undefined || second == undefined)
+     errmsg = 'Error in getting time data...';
+
+  if(!regmail.test(username)) 
+     errmsg = 'Error. Invalid user name. Must be an email address...';
+
+  validate(hint, 'password hint');
+  validate(password, 'password');
+  validate(password2, 'confirm password');
+  validate(username, 'user name');
+  validate(type, 'type of organization');
+  validate(category, 'category');
+  validate(website, 'website url');
+  validate(email, 'email address');
+  validate(phone, 'phone number');
+  validate(zone, 'zone');
+  validate(city, 'city');
+  validate(state, 'State');
+  validate(address, 'address');
+
+  if(briefdesc == undefined || briefdesc == '' || briefdesc.length > 200)
+     errmsg = 'Error in getting a brief description...';
+
+  validate(name, 'the organization name');
+
+  if(errmsg != ''){
+    res.send(errmsg);
+    res.end();
+    return;
   }
 
-  var newOrg = new Org({
+  let newOrg = new Org({
     name: name,
     briefdesc: briefdesc,
     address: address,
@@ -199,7 +137,7 @@ router.post('/', urlencodedParser, function(req,res){
     active: active
   });
 
-  var validParams = { email, searchname, username, orgid };
+  let validParams = { email, searchname, username, orgid };
 
   validateOrganization(validParams).then(function(msg){
     if(msg.substring(0,5) != 'Error'){
@@ -227,10 +165,15 @@ router.post('/', urlencodedParser, function(req,res){
   });
 })
 
-function validateOrganization(params){
+let validate = (param, key) => {
+  if(param == undefined || param == '' || param == 'select...' || param.length > 100)
+   return errmsg = 'Error in getting ' + key + '...';
+}
+
+let validateOrganization = (params) => {
   return new Promise(function(resolve, reject){
-    var exist = false;
-    var msg = '';
+    let exist = false;
+    let msg = '';
 
     params.field = 'searchname';
     Org.validateEntity(params, function(err, org){
@@ -266,7 +209,7 @@ function validateOrganization(params){
   });
 }
 
-function errorHandler(err){
+let errorHandler = (err) => {
   if(err['errors'] != undefined){
     Object.keys(err['errors']).forEach(function(key) {
       return err['errors'][key]['message'].toString();
@@ -275,8 +218,8 @@ function errorHandler(err){
   return 'Server error...';  
 }
 
-function removeAccents(str) {
-  var convMap = {
+let removeAccents = (str) => {
+  let convMap = {
       "á" : "a",
       "Á" : "a",
       "é" : "e",
@@ -289,7 +232,7 @@ function removeAccents(str) {
       "Ú" : "u",
       "ü" : "u"
   }
-  for (var i in convMap) {
+  for (let i in convMap) {
     str = str.replace(new RegExp(i, "g"), convMap[i]);
   }
   return str;

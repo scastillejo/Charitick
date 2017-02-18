@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
-var bodyParser = require('body-parser');
-var User = require('../models/da-users');
+let express = require('express');
+let router = express.Router();
+let bodyParser = require('body-parser');
+let User = require('../models/da-users');
 
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
+let urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.get('/', function(req, res, next) {
   res.render('pwdrecovery', { message : null, data:{'hrefone': 'login', 'titleone': 'Log In' }
@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', urlencodedParser, function(req,res){
-  var username = req.body.username;
+  let username = req.body.username;
 
   if(username == '')
     return res.render('pwdrecovery',{ message : 'Please, type your user name', data:{'hrefone': 'login', 'titleone': 'Log In' }});

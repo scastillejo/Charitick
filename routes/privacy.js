@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var bodyParser = require('body-parser');
+let express = require('express');
+let router = express.Router();
+let bodyParser = require('body-parser');
 
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
+let urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.get('/', function(req, res, next) {
   if(req.userid == undefined || req.userid == ''){

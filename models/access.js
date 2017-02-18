@@ -1,5 +1,5 @@
 module.exports.payload = function(id, name){
-	var pload = {
+	let pload = {
 	  "iss": id,
 	  "sub": name,
 	  "aud": "World",

@@ -1,31 +1,31 @@
-var express = require('express');
-var app = express();
-//var http = require('http');
-//var server = http.createServer(app);
-var https = require('https');
-var path = require('path');
-var favicon = require('serve-favicon');
-var fs = require('fs');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var jwt = require('json-web-token');
-var access = require('./models/access.js');
+let express = require('express');
+let app = express();
+//let http = require('http');
+//let server = http.createServer(app);
+let https = require('https');
+let path = require('path');
+let favicon = require('serve-favicon');
+let fs = require('fs');
+let logger = require('morgan');
+let cookieParser = require('cookie-parser');
+let bodyParser = require('body-parser');
+let mongoose = require('mongoose');
+let jwt = require('json-web-token');
+let access = require('./models/access.js');
 mongoose.Promise = global.Promise;
 //mongoose.connect('localhost:27017/dbcharitick');
 mongoose.connect('mongodb://test:test@ds111489.mlab.com:11489/dbcharitick');
 
-var routes = require('./routes/index');
-var signup = require('./routes/signup');
-var login = require('./routes/login');
-var payments = require('./routes/payments');
-var organizationform = require('./routes/organizationform');
-var pwdrecovery = require('./routes/pwdrecovery');
-var aboutit = require('./routes/aboutit');
-var aboutorganization = require('./routes/aboutorganization');
-var terms = require('./routes/terms');
-var privacy = require('./routes/privacy');
+let routes = require('./routes/index');
+let signup = require('./routes/signup');
+let login = require('./routes/login');
+let payments = require('./routes/payments');
+let organizationform = require('./routes/organizationform');
+let pwdrecovery = require('./routes/pwdrecovery');
+let aboutit = require('./routes/aboutit');
+let aboutorganization = require('./routes/aboutorganization');
+let terms = require('./routes/terms');
+let privacy = require('./routes/privacy');
 
 const httpsOptions = {
   cert: fs.readFileSync(path.join(__dirname, 'ssl', 'server.crt')),
@@ -42,7 +42,7 @@ https.createServer(httpsOptions, app).listen(3443, function(){
 /*server.listen(process.env.PORT || 3000);
 console.log('server running...');*/
 
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
+let urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -63,7 +63,7 @@ app.use('/terms', terms);
 app.use('/privacy', privacy);
 
 function jwtdecode(req, res, next) {
-  var token = req.cookies['_accessToken'];
+  let token = req.cookies['_accessToken'];
   if (token != undefined) {
     try {
       jwt.decode(access.secret, token, function (err, decode) {
@@ -86,7 +86,7 @@ function jwtdecode(req, res, next) {
 };
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  let err = new Error('Not Found');
   err.status = 404;
   next(err);
 });

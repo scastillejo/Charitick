@@ -1,4 +1,4 @@
-var Org = require('./da-org');
+let Org = require('./da-org');
 
 module.exports.validateEntity = function(params){
   return new Promise(function(resolve, reject){

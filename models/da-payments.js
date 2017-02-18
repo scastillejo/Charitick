@@ -1,7 +1,7 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+let mongoose = require('mongoose');
+let Schema = mongoose.Schema;
 
-var PaymentsSchema = new Schema({
+let PaymentsSchema = new Schema({
 	name: {
 		type: String
 	},
@@ -37,7 +37,7 @@ var PaymentsSchema = new Schema({
 	}
 },{collection : 'payments'});
 
-var PaymentsModel = module.exports = mongoose.model('PaymentsModel', PaymentsSchema);
+let PaymentsModel = module.exports = mongoose.model('PaymentsModel', PaymentsSchema);
 
 module.exports.createOrderRecord = function(newPaymentRecord, callback){
     newPaymentRecord.save(callback);
