@@ -41,30 +41,10 @@ router.post('/', urlencodedParser, function(req,res){
   let password = req.body.password;
   let password2 = req.body.password2;
   let hint = req.body.hint;
-  let regmail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-  let errmsg = '';
+  let errormsg = validation(username, password, password2, hint);
 
-  let validate = (param, key) => {
-    if(param == undefined || param == '' || param.length > 100)
-     return errmsg = 'Error in getting ' + key + '...';
-  }
-
-  if(!regmail.test(username))  
-     errmsg ='Error. Invalid user name. Must be an email address...';
-
-  if(password != password2)
-     errmsg ='Error. Passwords don´t match.';
-
-  if(hint == password)
-     errmsg ='Error. Password hint cannot be the password.';
-
-  validate(hint, 'hint');
-  validate(password2, 'confirm password');
-  validate(password, 'password');
-  validate(username, 'user name');
-
-  if(errmsg != ''){
-    res.send(errmsg);
+  if(errormsg != ''){
+    res.send(errormsg);
     res.end();
     return;
   }
@@ -75,28 +55,49 @@ router.post('/', urlencodedParser, function(req,res){
     hint: hint
   });
 
-  if(req.userid == undefined || req.userid == ''){
-    User.createUser(newUser, function(err, data){
-      if(err != null)
-        res.send(errorHandler(err));
-      if(data != undefined)
-        res.send('Data entered.');
-    });
+  let editUserCallback = (err, data) => {
+    if(err != null)
+      res.send(errorHandler(err));
+    if(data != undefined)
+      res.send('User data entered.');
   }
-  else{
-    User.updateUser(newUser, req.userid, function(err, data){
-      if(err != null)
-        res.send(errorHandler(err));
-      if(data != undefined)
-        res.send('Data entered.');
-    });
-  }
+
+  if(req.userid == undefined || req.userid == '')
+    User.createUser(newUser, editUserCallback);
+  else
+    User.updateUser(newUser, req.userid, editUserCallback);
 })
+
+let validation = (username, password, password2, hint) => {
+  let errmsg = '';
+  let regmail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+  if(!regmail.test(username))  
+     errmsg ='Error. Invalid user name. Must be an email address...';
+
+  if(password != password2)
+     errmsg ='Error. Passwords don´t match.';
+
+  if(hint == password)
+     errmsg ='Error. Password hint cannot be the password.';
+
+  validateField(hint, 'hint');
+  validateField(password2, 'confirm password');
+  validateField(password, 'password');
+  validateField(username, 'user name');
+
+  return errmsg;
+}
+
+let validateField = (value, key) => {
+  if(value == undefined || value == '' || value.length > 100)
+   return errmsg = 'Error in getting ' + key + '...';
+}
 
 let errorHandler = (err) => {
   if(err['errors'] != undefined){
     Object.keys(err['errors']).forEach(function(key) {
-      return err['errors'][key]['message'].toString();
+      return 'Error. ' + err['errors'][key]['message'].toString();
     });
   }
   if(err['code'] == 11000){
@@ -111,32 +112,33 @@ let errorHandler = (err) => {
 
     return 'Error. Possible duplicate data.';
   }
-  return 'Server error...';  
+  return 'Error in Server...';  
 }
 
 router.delete('/', urlencodedParser, function(req,res){
+  let sendResponse = (msg) => {
+    res.send(msg);
+    res.end();
+    return;
+  }
+
   if(req.userid != undefined && req.userid != ''){
    let inf = req.body.inf;
 
    if(inf != undefined && inf != '' && inf != '-'){
       User.deleteUserAccount(req.userid, function(err){
-      if(err) res.send(err);
-      res.send('Account deleted.');
-      res.end();
-      return;
+      if(err) sendResponse(err)
+      else {
+        res.clearCookie('_accessToken');
+        sendResponse('Account deleted.');
+      }
      });
    }
-   else{
-     res.send('Error. You must first create an account.');
-     res.end();
-     return;
-   }
+   else
+    sendResponse('Please, log in again.')
  }
- else{
-  res.send('Please, log in again.');
-  res.end();
-  return;
- }
+ else
+  sendResponse('Error. You must first create an account.')
 });
 
 module.exports = router;

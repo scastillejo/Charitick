@@ -10,24 +10,7 @@ let urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.get('/', function(req, res, next) {
 	if(req.userid == undefined || req.userid == ''){
-    res.render('index', {data:{
-      'username': '',
-      'briefdesc': '',
-      'address': '',
-      'state': '',  
-      'city': '',
-      'zone': '',   
-      'phone': '',
-      'email': '',
-      'website': '',
-      'hrefone': 'signup',
-      'titleone': 'Sign Up',
-      'hreftwo': 'login',
-      'titletwo': 'Log In',
-      'hrefthree': 'organizationform',
-      'titlethree': 'Organization?'
-    }
-   });
+    res.render('index', { data:menudata });
   }
   else{
     User.getUserById(req.userid, function(err, user){
@@ -44,24 +27,7 @@ router.get('/', function(req, res, next) {
 		}
     else{
       res.clearCookie('_accessToken');
-      res.render('index', {data:{
-        'username': '',
-        'briefdesc': '',
-        'address': '',
-        'state': '',  
-        'city': '',
-        'zone': '',   
-        'phone': '',
-        'email': '',
-        'website': '',
-        'hrefone': 'signup',
-        'titleone': 'Sign Up',
-        'hreftwo': 'login',
-        'titletwo': 'Log In',
-        'hrefthree': 'organizationform',
-        'titlethree': 'Organization?'
-      }
-     });
+      res.render('index', { data:menudata });
     }
   });
   }
@@ -243,5 +209,23 @@ router.post('/', urlencodedParser, function(req,res){
     //to do
   }
 });
+
+let menudata = {
+  'username': '',
+  'briefdesc': '',
+  'address': '',
+  'state': '',  
+  'city': '',
+  'zone': '',   
+  'phone': '',
+  'email': '',
+  'website': '',
+  'hrefone': 'signup',
+  'titleone': 'Sign Up',
+  'hreftwo': 'login',
+  'titletwo': 'Log In',
+  'hrefthree': 'organizationform',
+  'titlethree': 'Organization?'
+}
 
 module.exports = router;

@@ -165,8 +165,8 @@ router.post('/', urlencodedParser, function(req,res){
   });
 })
 
-let validate = (param, key) => {
-  if(param == undefined || param == '' || param == 'select...' || param.length > 100)
+let validate = (value, key) => {
+  if(value == undefined || value == '' || value == 'select...' || value.length > 100)
    return errmsg = 'Error in getting ' + key + '...';
 }
 
