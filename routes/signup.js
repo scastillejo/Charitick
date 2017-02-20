@@ -72,6 +72,11 @@ let validation = (username, password, password2, hint) => {
   let errmsg = '';
   let regmail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
+  let validateField = (value, key) => {
+    if(value == undefined || value == '' || value.length > 100)
+     return errmsg = 'Error in getting ' + key + '...';
+  }
+
   if(!regmail.test(username))  
      errmsg ='Error. Invalid user name. Must be an email address...';
 
@@ -87,11 +92,6 @@ let validation = (username, password, password2, hint) => {
   validateField(username, 'user name');
 
   return errmsg;
-}
-
-let validateField = (value, key) => {
-  if(value == undefined || value == '' || value.length > 100)
-   return errmsg = 'Error in getting ' + key + '...';
 }
 
 let errorHandler = (err) => {

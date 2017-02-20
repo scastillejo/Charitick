@@ -68,49 +68,29 @@ router.post('/', urlencodedParser, function(req,res){
   let password2 = req.body.password2;
   let hint = req.body.hint;
   let active = req.body.active;
-  var errmsg = '';
-  let regmail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-  let regphone = /^(?! )((?!  )(?! $)[a-zA-Z0-9-+() ]){1,100}$/;
+  
+  let errormsg = validation(name,
+                            briefdesc,
+                            address,
+                            state,
+                            city,
+                            zone,
+                            phone,
+                            email,
+                            website,
+                            category,
+                            type,
+                            hour,
+                            minute,
+                            second,
+                            searchname,
+                            username,
+                            password,
+                            password2,
+                            hint);
 
-  if(password != password2)
-     errmsg = 'Error. Passwords don´t match.';
-
-  if(hint == password)
-     errmsg = 'Error. Password hint cannot be the password.';
-
-  if(!regphone.test(phone))  
-     errmsg = 'Error. Invalid phone number format...';
-
-  if(!regmail.test(email)) 
-     errmsg = 'Error. Invalid email address...';
-
-  if(hour == undefined || minute == undefined || second == undefined)
-     errmsg = 'Error in getting time data...';
-
-  if(!regmail.test(username)) 
-     errmsg = 'Error. Invalid user name. Must be an email address...';
-
-  validate(hint, 'password hint');
-  validate(password, 'password');
-  validate(password2, 'confirm password');
-  validate(username, 'user name');
-  validate(type, 'type of organization');
-  validate(category, 'category');
-  validate(website, 'website url');
-  validate(email, 'email address');
-  validate(phone, 'phone number');
-  validate(zone, 'zone');
-  validate(city, 'city');
-  validate(state, 'State');
-  validate(address, 'address');
-
-  if(briefdesc == undefined || briefdesc == '' || briefdesc.length > 200)
-     errmsg = 'Error in getting a brief description...';
-
-  validate(name, 'the organization name');
-
-  if(errmsg != ''){
-    res.send(errmsg);
+  if(errormsg != ''){
+    res.send(errormsg);
     res.end();
     return;
   }
@@ -165,9 +145,55 @@ router.post('/', urlencodedParser, function(req,res){
   });
 })
 
-let validate = (value, key) => {
-  if(value == undefined || value == '' || value == 'select...' || value.length > 100)
-   return errmsg = 'Error in getting ' + key + '...';
+let validation = (name, briefdesc, address, state, city, zone, phone, email, website, category, type, hour, minute, second, searchname, username, password, password2, hint) => {
+
+  let errmsg = '';
+  let regmail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+  let regphone = /^(?! )((?!  )(?! $)[a-zA-Z0-9-+() ]){1,100}$/;
+
+  let validateField = (value, key) => {
+    if(value == undefined || value == '' || value == 'select...' || value.length > 100)
+     return errmsg = 'Error in getting ' + key + '...';
+  }
+
+  if(password != password2)
+     errmsg = 'Error. Passwords don´t match.';
+
+  if(hint == password)
+     errmsg = 'Error. Password hint cannot be the password.';
+
+  if(!regphone.test(phone))  
+     errmsg = 'Error. Invalid phone number format...';
+
+  if(!regmail.test(email)) 
+     errmsg = 'Error. Invalid email address...';
+
+  if(hour == undefined || minute == undefined || second == undefined)
+     errmsg = 'Error in getting time data...';
+
+  if(!regmail.test(username)) 
+     errmsg = 'Error. Invalid user name. Must be an email address...';
+
+  validateField(hint, 'password hint');
+  validateField(password, 'password');
+  validateField(password2, 'confirm password');
+  validateField(username, 'user name');
+  validateField(type, 'type of organization');
+  validateField(category, 'category');
+  validateField(website, 'website url');
+  validateField(email, 'email address');
+  validateField(phone, 'phone number');
+  validateField(zone, 'zone');
+  validateField(city, 'city');
+  validateField(state, 'State');
+  validateField(address, 'address');
+
+  if(briefdesc == undefined || briefdesc == '' || briefdesc.length > 200)
+     errmsg = 'Error in getting a brief description...';
+
+  validateField(name, 'the organization name');
+
+  return errmsg;
 }
 
 let validateOrganization = (params) => {

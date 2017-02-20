@@ -33,17 +33,15 @@ router.post('/', urlencodedParser, function(req,res){
 
   obj.getEntityByUsername(username, function(err, user){
 	if(err) throw err;
-	if(!user){
+	if(!user)
 		return res.render('login',{ message : 'Unknown user or password.', data:{ 'hrefone': '', 'titleone': 'Home' }});
-	}
 
 	PwdCompare.comparePassword(password, user.password, function(err, isMatch){
 		if(err) throw err;
 		if(isMatch){
 			jwt.encode(access.secret, access.payload(user._id, user.username), function (err, token) {
-			  if (err) {
+			  if (err)
 			    return console.error(err.name, err.message);
-			  } 
 			  else {
 				res.cookie('_accessToken', token, { httpOnly: true, maxAge: 1800000 }); //30 min
 				if(isOrganization == undefined)
@@ -53,9 +51,8 @@ router.post('/', urlencodedParser, function(req,res){
 			  }
 			});
 		} 
-		else {
+		else
 			return res.render('login',{ message : 'Invalid password.', data:{ 'hrefone': '', 'titleone': 'Home' }});
-		}
 	});
   });
 })
