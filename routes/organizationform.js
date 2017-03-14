@@ -46,48 +46,30 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', urlencodedParser, function(req,res){
-  let orgid = req.body.inf;
-  let name = req.body.name;
-  let briefdesc = req.body.briefdesc;
-  let address = req.body.address;
-  let state = req.body.state;
-  let city = req.body.city;
-  let zone = req.body.zone;
-  let phone = req.body.phone;
-  let email = req.body.email;
-  let website = req.body.website;
-  let category = req.body.category;
-  let type = req.body.type;
+
   let date = new Date();
   let hour = date.getHours();
   let minute = date.getMinutes();
   let second = date.getSeconds();
-  let searchname = removeAccents(name.toLowerCase());
-  let username = req.body.username;
-  let password = req.body.password;
-  let password2 = req.body.password2;
-  let hint = req.body.hint;
-  let active = req.body.active;
   
-  let errormsg = validation(name,
-                            briefdesc,
-                            address,
-                            state,
-                            city,
-                            zone,
-                            phone,
-                            email,
-                            website,
-                            category,
-                            type,
+  let errormsg = validation(req.body.name,
+                            req.body.briefdesc,
+                            req.body.address,
+                            req.body.state,
+                            req.body.city,
+                            req.body.zone,
+                            req.body.phone,
+                            req.body.email,
+                            req.body.website,
+                            req.body.category,
+                            req.body.type,
                             hour,
                             minute,
                             second,
-                            searchname,
-                            username,
-                            password,
-                            password2,
-                            hint);
+                            req.body.username,
+                            req.body.password,
+                            req.body.password2,
+                            req.body.hint);
 
   if(errormsg != ''){
     res.send(errormsg);
@@ -95,33 +77,35 @@ router.post('/', urlencodedParser, function(req,res){
     return;
   }
 
+  let searchname = removeAccents(req.body.name.toLowerCase());
+
   let newOrg = new Org({
-    name: name,
-    briefdesc: briefdesc,
-    address: address,
-    state: state,
-    city: city,
-    zone: zone,
-    phone: phone,
-    email: email,
-    website:website,
-    category: category,
-    type:type,
+    name: req.body.name,
+    briefdesc: req.body.briefdesc,
+    address: req.body.address,
+    state: req.body.state,
+    city: req.body.city,
+    zone: req.body.zone,
+    phone: req.body.phone,
+    email: req.body.email,
+    website:req.body.website,
+    category: req.body.category,
+    type:req.body.type,
     hour:hour,
     minute:minute,
     second:second,
     searchname: searchname,
-    username: username,
-    password: password,
-    hint: hint,
-    active: active
+    username: req.body.username,
+    password: req.body.password,
+    hint: req.body.hint,
+    active: req.body.active
   });
 
-  let validParams = { email, searchname, username, orgid };
+  let validParams = { email:req.body.email, searchname:searchname, username:req.body.username, id:req.body.inf };
 
   validateOrganization(validParams).then(function(msg){
     if(msg.substring(0,5) != 'Error'){
-      if(orgid == '-'){
+      if(req.body.inf == '-'){
         Org.createOrg(newOrg, function(err, data){
           if(err != null)
             res.send(errorHandler(err));
@@ -130,7 +114,7 @@ router.post('/', urlencodedParser, function(req,res){
         });
       }
       else{
-        Org.updateOrg(newOrg, orgid, function(err, data){
+        Org.updateOrg(newOrg, req.body.inf, function(err, data){
           if(err != null)
             res.send(errorHandler(err));
           if(data != undefined)
@@ -145,7 +129,7 @@ router.post('/', urlencodedParser, function(req,res){
   });
 })
 
-let validation = (name, briefdesc, address, state, city, zone, phone, email, website, category, type, hour, minute, second, searchname, username, password, password2, hint) => {
+let validation = (name, briefdesc, address, state, city, zone, phone, email, website, category, type, hour, minute, second, username, password, password2, hint) => {
 
   let errmsg = '';
   let regmail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;

@@ -36,12 +36,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', urlencodedParser, function(req,res){
-  let userid = req.userid;
-  let username = req.body.username;
-  let password = req.body.password;
-  let password2 = req.body.password2;
-  let hint = req.body.hint;
-  let errormsg = validation(username, password, password2, hint);
+
+  let errormsg = validation(req.body.username, req.body.password, req.body.password2, req.body.hint);
 
   if(errormsg != ''){
     res.send(errormsg);
@@ -50,9 +46,9 @@ router.post('/', urlencodedParser, function(req,res){
   }
 
   let newUser = new User({
-    username: username,
-    password: password,
-    hint: hint
+    username: req.body.username,
+    password: req.body.password,
+    hint: req.body.hint
   });
 
   let editUserCallback = (err, data) => {
