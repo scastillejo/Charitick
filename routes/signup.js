@@ -91,12 +91,12 @@ let validation = (username, password, password2, hint) => {
 }
 
 let errorHandler = (err) => {
-  if(err['errors'] != undefined){
-    Object.keys(err['errors']).forEach(function(key) {
-      return 'Error. ' + err['errors'][key]['message'].toString();
+  if(err.errors != undefined){
+    err.errors.map(function(key) {
+      return 'Error. ' + key.message.toString();
     });
   }
-  if(err['code'] == 11000){
+  if(err.code == 11000){
     let str = JSON.stringify(err);
     let from = str.indexOf("dbcharitick.users");
     let to = str.indexOf("dup key");

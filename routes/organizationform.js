@@ -220,9 +220,9 @@ let validateOrganization = (params) => {
 }
 
 let errorHandler = (err) => {
-  if(err['errors'] != undefined){
-    Object.keys(err['errors']).forEach(function(key) {
-      return err['errors'][key]['message'].toString();
+  if(err.errors != undefined){
+    err.errors.map(function(key) {
+      return 'Error. ' + key.message.toString();
     });
   }
   return 'Server error...';  
