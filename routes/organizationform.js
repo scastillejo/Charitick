@@ -130,7 +130,6 @@ router.post('/', urlencodedParser, function(req,res){
 })
 
 let validation = (name, briefdesc, address, state, city, zone, phone, email, website, category, type, hour, minute, second, username, password, password2, hint) => {
-
   let errmsg = '';
   let regmail = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
   let regphone = /^(?! )((?!  )(?! $)[a-zA-Z0-9-+() ]){1,100}$/;

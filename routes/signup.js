@@ -36,7 +36,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', urlencodedParser, function(req,res){
-
   let errormsg = validation(req.body.username, req.body.password, req.body.password2, req.body.hint);
 
   if(errormsg != ''){
