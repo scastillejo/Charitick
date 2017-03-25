@@ -35,8 +35,7 @@ $(document).ready(function(){
 let onSuccessSearchOrg = (data, hour, minute, second) => {
   let str = JSON.stringify(data);
   if(str.substring(1,6) != 'Error'){
-    let leng = Object.keys(data).length;
-    if(leng > 0){
+    if(Object.keys(data).length > 0){
       $("#searchresults").empty();
       $('#searchresults').append('<p>Organization found:</p>');
       $('#searchresults').append('<li id="fname">' + data.name + '</li>');

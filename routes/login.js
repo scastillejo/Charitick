@@ -11,8 +11,7 @@ let urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.get('/', function(req, res, next) {
 	res.clearCookie('_accessToken');
-	res.render('login',{ message : '',data:{ 'hrefone': '', 'titleone': 'Home' }
-  });
+	res.render('login',{ message : '',data:{ 'hrefone': '', 'titleone': 'Home' }});
 });
 
 router.post('/', urlencodedParser, function(req,res){

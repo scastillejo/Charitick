@@ -6,8 +6,7 @@ let User = require('../models/da-users');
 let urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 router.get('/', function(req, res, next) {
-  res.render('pwdrecovery', { message : null, data:{'hrefone': 'login', 'titleone': 'Log In' }
-  });
+  res.render('pwdrecovery', { message : null, data:{'hrefone': 'login', 'titleone': 'Log In' }});
 });
 
 router.post('/', urlencodedParser, function(req,res){

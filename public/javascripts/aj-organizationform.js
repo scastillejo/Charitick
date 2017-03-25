@@ -53,17 +53,7 @@ $(document).ready(function(){
         url: '/organizationform',
         data: data,
         success: function(data){
-          let str = JSON.stringify(data);
-          if(str.substring(1,6) != 'Error'){
-            if($('#inf').text() == '-'){
-              $('#inf').text(data);
-              alert('Organization created.');
-            }
-            else
-              alert(data);
-          }            
-          else
-            alert(data);
+          onSuccessSignup(data);
         },
         error:function(msg){
           alert(msg);
@@ -72,6 +62,20 @@ $(document).ready(function(){
       return false;
    });
 });
+
+let onSuccessSignup = (data) => {
+  let str = JSON.stringify(data);
+  if(str.substring(1,6) != 'Error'){
+    if($('#inf').text() == '-'){
+      $('#inf').text(data);
+      alert('Organization created.');
+    }
+    else
+      alert(data);
+  }            
+  else
+    alert(data);
+};
 
 $(document).ajaxStart(function(){
     $("#loading").removeClass('hide');
