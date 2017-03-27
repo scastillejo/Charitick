@@ -60,7 +60,7 @@ router.post('/', urlencodedParser, function(req,res){
         var i = data.length;
 
         //Looks up the same or closest hour
-        data.forEach(item => {
+        data.map(item => {
           var newdiff = Math.abs (hour - item.hour);
           if (newdiff < diff) {
               diff = newdiff;
@@ -74,7 +74,7 @@ router.post('/', urlencodedParser, function(req,res){
         var minutearray = [];
 
         //Checks whether the hour is more than once in the array.
-        data.forEach(item => {
+        data.map(item => {
           if(item.hour == currhour){
             minutearray[hcount] = item; //I take the chance to fill a minute array in case there's more than one hour record.
             hcount += 1;
@@ -87,7 +87,7 @@ router.post('/', urlencodedParser, function(req,res){
           datarecord = minutearray[0];
           var diff = Math.abs (minute - curr);
 
-          minutearray.forEach(item => {
+          minutearray.map(item => {
             //If it's the same hour, it has to find closest minute.
             if(hour == currhour){
               var newdiff = Math.abs (minute - item.minute);
@@ -117,7 +117,7 @@ router.post('/', urlencodedParser, function(req,res){
           var mcount = 0;
           var secondarray = [];
 
-          minutearray.forEach(item => {
+          minutearray.map(item => {
             if(item.minute == currminute){
               secondarray[mcount] = item;
               mcount += 1;
@@ -129,7 +129,7 @@ router.post('/', urlencodedParser, function(req,res){
             datarecord = secondarray[0];
             var diff = Math.abs (second - curr);
 
-            secondarray.forEach(item => {
+            secondarray.map(item => {
               if(hour == currhour){
                 var newdiff = Math.abs (second - item.second);
                 if (newdiff < diff) {
@@ -155,7 +155,7 @@ router.post('/', urlencodedParser, function(req,res){
             var currsecond = curr;
             var scount = 0;
 
-            secondarray.forEach(item => {
+            secondarray.map(item => {
               if(item.second == currsecond){
                 scount += 1;
               }
