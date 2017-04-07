@@ -57,7 +57,6 @@ router.post('/', urlencodedParser, function(req,res){
         var curr = data[0].hour;
         var datarecord = data[0];
         var diff = Math.abs (hour - curr);
-        var i = data.length;
 
         //Looks up the same or closest hour
         data.map(item => {
