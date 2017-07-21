@@ -130,7 +130,7 @@ label {
   height: 100px;
   background-color: black;
   border-radius: 100%;
-  background-image: url("http://junesiphone.com/images/clock.png");
+  background-image: url("../images/clock.png");
   background-size: 100px;
 }
 .transform{

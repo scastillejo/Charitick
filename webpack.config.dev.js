@@ -31,7 +31,9 @@ export default {
           loader: 'style-loader!css-loader!sass-loader'
       },
       {
-         test:/\.(png|jpe?g|gif)$/,exclude:/node_modules/,loader: 'url-loader?limit=1024&name=/assets/[name].[ext]'
+         test:/\.(png|jpe?g|gif)$/,
+         loader: 'file-loader',
+         include: path.join(__dirname, 'client')
       } 
     ]
   },
