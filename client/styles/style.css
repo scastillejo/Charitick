@@ -46,10 +46,13 @@ label {
   background-color: transparent;
   border-style: none;
   font-weight: bold;
+  font-size: 17px;
   padding-right: 15px;
   padding-left: 15px;
 } 
-
+.navbar-brand{
+  font-size: 30px;
+}
 #menubar a {
   color: #000000;
 } 

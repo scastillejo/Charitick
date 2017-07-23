@@ -32,8 +32,7 @@ class NavigationBar extends React.Component {
           <div className="navbar-header">
             <Link to="/" className="navbar-brand">Charitick</Link>
           </div>
-
-          <div className="collapse navbar-collapse">
+          <div>
             { isAuthenticated ? userLinks : guestLinks }
           </div>
         </div>
