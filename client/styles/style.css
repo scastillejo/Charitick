@@ -38,15 +38,6 @@ label {
     color: #000000;
 }
 
-#footer{
-    text-align: center;
-}
-
-.paymentitems {
-    display: none;
-    list-style-type: none;
-} 
-
 .hide{
   display: none;
 }
@@ -82,13 +73,6 @@ label {
   left: 50%;
   text-align: center;
   z-index: 100;
-}
-
-#paymentlist a {
-    color: #009900;
-} 
-
-#searchresultsformdiv {
 }
 
 #searchresultsbuttondiv {

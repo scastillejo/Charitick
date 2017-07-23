@@ -16,18 +16,22 @@ class DonateForm extends React.Component {
     };
 
     this.onSubmit = this.onSubmit.bind(this);
+    this.myVar = setInterval(function () {
+      this.tick();
+      this.setTime();
+    }.bind(this), 1000);
   }
 
   onSubmit(e) {
     e.preventDefault();
-    this.props.createDonation(this.state);
-  }
-
-  componentDidMount(){
-     setInterval(function () {
-      this.tick();
-      this.setTime();
-    }.bind(this), 1000);
+    this.setState({ errors: {}, isLoading: true });
+    const { isAuthenticated } = this.props.auth;
+    if(isAuthenticated){
+       this.props.createDonation(this.state);
+    }
+    else{
+      this.setState({ errors: { message:'Sign up and log in first!'}, isLoading: false })
+    }
   }
 
   tick(){
@@ -39,7 +43,6 @@ class DonateForm extends React.Component {
     document.getElementById('s').style.cssText="-webkit-transform:rotate("+s+"deg);";
     document.getElementById('m').style.cssText="-webkit-transform:rotate("+m+"deg);";
     document.getElementById('h').style.cssText="-webkit-transform:rotate("+h+"deg);";
-    setTimeout(this.tick, 1000);
   }
 
   setTime(){
@@ -68,6 +71,14 @@ class DonateForm extends React.Component {
     });
   }
 
+  componentDidMount(){
+    this.myVar;
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.myVar);
+  }
+
   render() {
     const { title, errors, isLoading } = this.state;
     return (
@@ -87,6 +98,7 @@ class DonateForm extends React.Component {
               <div className="time">
                 <input type="submit" className="btn btn-danger" value="Tick" />
               </div>
+              { errors.message && <div className="time">{this.state.errors.message}</div>}
             </div>
           </div>
         </form>
@@ -96,7 +108,14 @@ class DonateForm extends React.Component {
 }
 
 DonateForm.propTypes = {
+  auth: React.PropTypes.object.isRequired,
   createDonation: React.PropTypes.func.isRequired
 }
 
-export default connect(null, { createDonation })(DonateForm);
+function mapStateToProps(state) {
+  return {
+    auth: state.auth
+  };
+}
+
+export default connect(mapStateToProps, { createDonation })(DonateForm);

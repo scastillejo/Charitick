@@ -6,7 +6,7 @@ let router = express.Router();
 
 router.post('/', authenticate, (req, res) => {
   let flag = req.body.flag;
-
+  
   if(flag == 'find'){
     let hour = req.body.hour;
     let minute = req.body.minute;

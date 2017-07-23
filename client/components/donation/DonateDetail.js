@@ -2,6 +2,12 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 class DonateDetail extends Component {
+    formatTime(val){
+      if(val < 10)
+        val = '0' + val;
+
+      return val;
+    }
     render() {
         if (!this.props.items) {
             return (<div></div>);
@@ -15,9 +21,9 @@ class DonateDetail extends Component {
                         <li>Description: {this.props.items.details.desc}</li>
                         <li>e-mail: {this.props.items.details.email}</li>
                         <li>Time: 
-                            {this.props.items.details.hour}:
-                            {this.props.items.details.minute}:
-                            {this.props.items.details.second}
+                            {this.formatTime(this.props.items.details.hour)}:
+                            {this.formatTime(this.props.items.details.minute)}:
+                            {this.formatTime(this.props.items.details.second)}
                         </li>
                       </ul>
                     </div>
