@@ -1,5 +1,6 @@
 let mongoose = require('mongoose');
 let bcrypt = require('bcrypt');
+let jwt = require('jsonwebtoken');
 let Schema = mongoose.Schema;
 
 let UserSchema = new Schema({
@@ -59,29 +60,29 @@ module.exports.updateUser = function(newUser, id, callback){
 	      hour: newUser.hour,
 	      minute: newUser.minute,
 	      second: newUser.second,
-	      accounttype: newUser.type
+	      accounttype: newUser.accounttype
 		};
-		User.findByIdAndUpdate(id, {$set: item}, {upsert: true, new: true, runValidators: true},callback);
+		User.findByIdAndUpdate(decodeId(id), {$set: item}, {upsert: true, new: true, runValidators: true},callback);
     });
   });
 }
 
-module.exports.getUserById = function(id, callback){
-	User.findById(id, callback);
-}
-
-module.exports.getUserByUsername = function(username, callback){
-	User.findOne({username: username}, callback);
-}
-
 module.exports.getUserByUsernameOrEmail = function(identifier, callback){
-	User.findOne({$or:[ {'username': identifier.username}, {'email': identifier.email}]} , callback);
+	if(identifier.tokenId){
+		if(identifier.field == 'username')
+			User.findOne({ $and: [{"username":identifier.username},{"_id":{ $ne : decodeId(identifier.tokenId)}}] }, callback);
+		if(identifier.field == 'email')
+			User.findOne({ $and: [{"email":identifier.email},{"_id":{ $ne : decodeId(identifier.tokenId)}}] }, callback);
+	} else {
+		User.findOne({$or:[ {'username': identifier.username}, {'email': identifier.email}]} , callback);
+	}
 }
 
 module.exports.getOrganization = function(params, callback){
 	User.find({ $or: [{"hour" : {'$gte': params.hfrom}},{"hour" :{'$lt': params.to}}]}, callback);
 }
 
-module.exports.deleteUserAccount = function(id, callback){
-	User.findOneAndRemove({ _id: id }, callback);
+function decodeId(token){
+	var decoded = jwt.decode(token);
+	return decoded.id;
 }

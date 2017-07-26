@@ -16,12 +16,15 @@ class SignupForm extends React.Component {
       accounttype: '',
       errors: {},
       isLoading: false,
-      invalid: false
+      invalid: false,
+      tokenId: localStorage.getItem('jwtToken'),
+      flag: 'edit'
     }
-
+    
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.checkUserExists = this.checkUserExists.bind(this);
+    this.tokenId = localStorage.getItem('jwtToken');
   }
 
   onChange(e) {
@@ -42,7 +45,16 @@ class SignupForm extends React.Component {
     const field = e.target.name;
     const val = e.target.value;
     if (val !== '') {
-      this.props.isUserExists(val).then(res => {
+      let obj = {
+        username: '',
+        email: '',
+        tokenId: localStorage.getItem('jwtToken'),
+        flag: 'exist',
+        field:field
+      }
+      if(field === 'username'){obj.username = val}else{obj.email = val}
+
+      this.props.userSignupRequest(obj).then(res => {
         let errors = this.state.errors;
         let invalid;
         if (res.data.user) {
@@ -132,6 +144,7 @@ class SignupForm extends React.Component {
             onChange={this.onChange}
             value={this.state.accounttype}
           >
+            <option key="select" value="">Select an account type...</option>
             <option key="user" value="user">User</option>
             <option key="organization" value="organization">Organization</option>
           </select>

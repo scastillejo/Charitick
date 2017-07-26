@@ -25,6 +25,9 @@ export default function validateInput(data) {
   if (!Validator.equals(data.password, data.passwordConfirmation)) {
     errors.passwordConfirmation = 'Passwords must match';
   }
+  if (Validator.isNull(data.accounttype)) {
+    errors.accounttype = 'This field is required';
+  }
 
   return {
     errors,
