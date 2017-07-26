@@ -96,7 +96,7 @@ class DonateForm extends React.Component {
                 <span>{this.state.hour}:{this.state.minute}:{this.state.second}</span>
               </div>
               <div className="time">
-                <input type="submit" className="btn btn-danger" value="Tick" />
+                <input type="submit" className="btn btn-danger btn-lg" value="Tick" />
               </div>
               { errors.message && <div className="time">{this.state.errors.message}</div>}
             </div>

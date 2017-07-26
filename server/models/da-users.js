@@ -34,7 +34,7 @@ let UserSchema = new Schema({
 	},
 	accounttype: {
 		type: String,
-		required: [true, 'Type required.']
+		required: [true, 'Account type required.']
 	}			
 }, {collection:'users'});
 
@@ -67,6 +67,14 @@ module.exports.updateUser = function(newUser, id, callback){
   });
 }
 
+module.exports.getUserById = function(id, callback){
+	User.findById(id, callback);
+}
+
+module.exports.getUserByUsername = function(username, callback){
+	User.findOne({username: username}, callback);
+}
+
 module.exports.getUserByUsernameOrEmail = function(identifier, callback){
 	if(identifier.tokenId){
 		if(identifier.field == 'username')
@@ -80,6 +88,10 @@ module.exports.getUserByUsernameOrEmail = function(identifier, callback){
 
 module.exports.getOrganization = function(params, callback){
 	User.find({ $or: [{"hour" : {'$gte': params.hfrom}},{"hour" :{'$lt': params.to}}]}, callback);
+}
+
+module.exports.deleteUserAccount = function(id, callback){
+	User.findOneAndRemove({ _id: id }, callback);
 }
 
 function decodeId(token){

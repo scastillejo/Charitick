@@ -33,7 +33,7 @@ class DonateDetail extends Component {
                   </div>
                   <div id="searchresultsbuttondiv">
                     <div className="form-group">
-                      <input type="submit" className="btn btn-danger" value="Donate" />
+                      <input type="submit" className="btn btn-danger btn-lg" value="Donate" />
                     </div>
                   </div>  
                 </form>

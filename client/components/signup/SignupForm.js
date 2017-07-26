@@ -78,7 +78,7 @@ class SignupForm extends React.Component {
         () => {
           this.props.addFlashMessage({
             type: 'success',
-            text: 'You signed up successfully. Welcome!'
+            text: 'Data successfully saved!'
           });
           this.context.router.push('/');
         },
@@ -151,7 +151,7 @@ class SignupForm extends React.Component {
         </div>
 
         <div className="form-group">
-          <button disabled={this.state.isLoading || this.state.invalid} className="btn btn-primary btn-lg">
+          <button disabled={this.state.isLoading || this.state.invalid} className="btn btn-danger btn-lg">
             Sign up
           </button>
         </div>
