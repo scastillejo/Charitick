@@ -7,10 +7,12 @@ require('../../styles/style.css');
 class NewEventPage extends React.Component {
   render() {
     return (
-      <div>
-        <DonateForm />
-        <DonateDetail />
-      </div>
+    	<div className="row">
+	        <div className="col-md-4 col-md-offset-4">
+		        <DonateForm />
+        		<DonateDetail />
+		    </div>
+	    </div>
     );
   }
 }

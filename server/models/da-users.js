@@ -95,6 +95,14 @@ module.exports.deleteUserAccount = function(id, callback){
 }
 
 function decodeId(token){
-	var decoded = jwt.decode(token);
-	return decoded.id;
+	if(token != null){
+		if(token.length > 50 ){
+			var decoded = jwt.decode(token);
+			return decoded.id;
+		}
+		else
+			return token;
+	}
+	else
+		return null;
 }

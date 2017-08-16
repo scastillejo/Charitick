@@ -9,6 +9,10 @@ class App extends React.Component {
         <NavigationBar />
         <FlashMessagesList />
         {this.props.children}
+        <div className="form-group" id="footer">
+			<p><b>© 2017 Charitick</b></p>
+			<p><a href="/">Terms and Conditions</a></p>
+		</div>
       </div>
     );
   }

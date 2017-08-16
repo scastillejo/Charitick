@@ -13,7 +13,7 @@ class SignupForm extends React.Component {
       email: '',
       password: '',
       passwordConfirmation: '',
-      accounttype: '',
+      accounttype: 'user',
       errors: {},
       isLoading: false,
       invalid: false,
@@ -91,7 +91,7 @@ class SignupForm extends React.Component {
     const { errors } = this.state;
     return (
       <form onSubmit={this.onSubmit}>
-        <h1>Join our community!</h1>
+        <h1>Signup Form</h1>
 
         <TextFieldGroup
           label="Name/Description"
@@ -144,7 +144,6 @@ class SignupForm extends React.Component {
             onChange={this.onChange}
             value={this.state.accounttype}
           >
-            <option key="select" value="">Select an account type...</option>
             <option key="user" value="user">User</option>
             <option key="organization" value="organization">Organization</option>
           </select>
@@ -155,6 +154,7 @@ class SignupForm extends React.Component {
             Sign up
           </button>
         </div>
+        { errors.message && <div className="alert alert-danger">{this.state.errors.message}</div>}
       </form>
     );
   }

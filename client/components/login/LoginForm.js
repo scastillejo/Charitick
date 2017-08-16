@@ -50,8 +50,6 @@ class LoginForm extends React.Component {
       <form onSubmit={this.onSubmit}>
         <h1>Login</h1>
 
-        { errors.form && <div className="alert alert-danger">{errors.form}</div> }
-
         <TextFieldGroup
           field="identifier"
           label="Username / Email"
@@ -68,6 +66,8 @@ class LoginForm extends React.Component {
           onChange={this.onChange}
           type="password"
         />
+
+        { errors.form && <div className="alert alert-danger">{errors.form}</div> }
 
         <div className="form-group"><button className="btn btn-danger btn-lg" disabled={isLoading}>Login</button></div>
       </form>
