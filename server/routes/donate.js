@@ -139,7 +139,7 @@ router.post('/', authenticate, (req, res) => {
     })
   }
   if(flag == 'donate'){
-    //to do
+    //to do. Payment platform due...
   }
 });
 
